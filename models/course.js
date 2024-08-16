@@ -1,6 +1,7 @@
 
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+console.log('Initializing Course Schema...');
 
 const courseSchema = new Schema({
     course:{type:String, required:true},
@@ -16,4 +17,7 @@ const courseSchema = new Schema({
 
 //    stdId:{ type: mongoose.Types.ObjectId,ref:'instructor',required:true},
 });
+
+console.log('Course Schema initialized:', courseSchema);
+
 module.exports = mongoose.model('course',courseSchema);
