@@ -2,7 +2,6 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const serverless = require('serverless-http');
-const Student = require('../models/student');
 const app = express();
 
 // Middleware to parse JSON bodies
@@ -20,37 +19,32 @@ mongoose.connect(process.env.MONGODB_URI, {
 const itemSchema = new mongoose.Schema({
     name: String,
 });
-app.get('/.netlify/functions/api/student/all',async (req, res) => {
-  try {
-      const studentData = await Student.find();
-      res.status(200).json({student:studentData});
-    } catch (error) {
-    console.log(error);
-      res.status(500).json({ message: error.message });
+
+const Item = mongoose.model('Item', itemSchema);
+
+// Sample GET API
+app.get('/api/items', async (req, res) => {
+    try {
+        const items = await Item.find();
+        res.json(items);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
     }
-})
-// Use the routes with the appropriate path prefix
-
-
-// Error handling middleware
-app.use((err, req, res, next) => {
-  console.error('Error:', err);
-  res.status(500).json({ error: 'Internal Server Error', message: err.message });
 });
 
-// Wrap the handler in a try-catch block
-const handler = serverless(app);
-module.exports.handler = async (event, context) => {
-  try {
-    console.log('Function started');
-    const result = await handler(event, context);
-    console.log('Function completed successfully');
-    return result;
-  } catch (error) {
-    console.error('Function failed:', error);
-    return {
-      statusCode: 500,
-      body: JSON.stringify({ error: 'Internal Server Error', message: error.message }),
-    };
-  }
-};
+// Sample POST API
+app.post('/api/items', async (req, res) => {
+    const item = new Item({
+        name: req.body.name,
+    });
+
+    try {
+        const newItem = await item.save();
+        res.status(201).json(newItem);
+    } catch (err) {
+        res.status(400).json({ message: err.message });
+    }
+});
+
+// Export the app as a serverless function
+module.exports.handler = serverless(app);
