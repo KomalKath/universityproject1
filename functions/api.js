@@ -1,19 +1,24 @@
+require('dotenv').config();
 const express = require('express');
+const mongoose = require('mongoose');
 const serverless = require('serverless-http');
-const connectDB = require ('../db/connection');
-const Student = require('../models/student');
-require("dotenv").config();
 const app = express();
 
-// Import routes from the root-level routes folder
-//const courseRoutes = require('../routes/courseRoutes');
+// Middleware to parse JSON bodies
+app.use(express.json());
 
-// Middleware to log requests
-connectDB();
-// app.use((req, res, next) => {
-//   console.log(`Request received: ${req.method} ${req.url}`);
-//   next();
-// });
+// Connect to MongoDB
+mongoose.connect(process.env.MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+})
+.then(() => console.log('Connected to MongoDB'))
+.catch(err => console.error('Could not connect to MongoDB:', err));
+
+// Sample Schema and Model
+const itemSchema = new mongoose.Schema({
+    name: String,
+});
 app.get('/.netlify/functions/api/student/all',async (req, res) => {
   try {
       const studentData = await Student.find();
