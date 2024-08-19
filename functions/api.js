@@ -1,16 +1,25 @@
 const express = require('express');
 const serverless = require('serverless-http');
+const connectDB = require ('../db/connection');
 const app = express();
 
 // Import routes from the root-level routes folder
-const courseRoutes = require('../routes/courseRoutes');
+//const courseRoutes = require('../routes/courseRoutes');
 
 // Middleware to log requests
+connectDB();
 app.use((req, res, next) => {
   console.log(`Request received: ${req.method} ${req.url}`);
   next();
 });
-
+app.get('/.netlify/functions/api/student/all',async (req, res) => {
+  try {
+      const studentData = await Student.find();
+      res.status(200).json({student:studentData});
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+})
 // Use the routes with the appropriate path prefix
 app.use('/.netlify/functions/api/course', courseRoutes);
 
