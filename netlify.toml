@@ -1,11 +1,3 @@
 [build]
-  functions = "functions"
-  
-[functions]
-  included_files = ["routes/**/*.js", "controllers/**/*.js"]
-  timeout = 20  # Increase if your functions are timing out (max 26 seconds)
-
-[[redirects]]
-  from = "/*"
-  to = "/.netlify/functions/api/:splat"
-  status = 200
+    functions = "functions"
+    node_bundler = "esbuild"
