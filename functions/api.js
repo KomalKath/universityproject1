@@ -30,15 +30,12 @@ const itemSchema = new mongoose.Schema({
     name: String,
 });
 const router = Router();
-router.get("/hello", (req, res) => res.send("Hello World!"));
+
 
 api.use("/api/", router);
 const Item = mongoose.model('Item', itemSchema);
 
-// Sample GET API
-// app.use('/.netlify/functions/api', (req, res, next) => {
-//   next();
-// });
+router.get("/hello", (req, res) => res.send("Hello World!"));
 
 router.get('/items', async (req, res) => {
     try {
@@ -65,5 +62,4 @@ router.post('/items', async (req, res) => {
 
 module.exports.handler = serverless(app);
 
-// // Export the app as a serverless function
-// module.exports.handler = serverless(app);
+
