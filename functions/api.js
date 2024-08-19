@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
+import express, { Router } from "express";
 const serverless = require('serverless-http');
 const app = express();
 
@@ -19,15 +20,18 @@ mongoose.connect(process.env.MONGODB_URI, {
 const itemSchema = new mongoose.Schema({
     name: String,
 });
+const router = Router();
+router.get("/hello", (req, res) => res.send("Hello World!"));
 
+api.use("/api/", router);
 const Item = mongoose.model('Item', itemSchema);
 
 // Sample GET API
-app.use('/.netlify/functions/api', (req, res, next) => {
-  next();
-});
+// app.use('/.netlify/functions/api', (req, res, next) => {
+//   next();
+// });
 
-app.get('/items', async (req, res) => {
+router.get('/items', async (req, res) => {
     try {
         const items = await Item.find();
         res.json(items);
@@ -37,7 +41,7 @@ app.get('/items', async (req, res) => {
 });
 
 // Sample POST API
-app.post('/items', async (req, res) => {
+router.post('/items', async (req, res) => {
     const item = new Item({
         name: req.body.name,
     });
