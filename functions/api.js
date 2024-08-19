@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const serverless = require('serverless-http');
+const Student = require('../models/student');
 const app = express();
 
 // Middleware to parse JSON bodies
