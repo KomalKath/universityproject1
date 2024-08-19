@@ -23,7 +23,7 @@ const itemSchema = new mongoose.Schema({
 const Item = mongoose.model('Item', itemSchema);
 
 // Sample GET API
-app.get('/api/items', async (req, res) => {
+app.get('/.netlify/functions/api/items', async (req, res) => {
     try {
         const items = await Item.find();
         res.json(items);
@@ -33,7 +33,7 @@ app.get('/api/items', async (req, res) => {
 });
 
 // Sample POST API
-app.post('/api/items', async (req, res) => {
+app.post('/.netlify/functions/api/items', async (req, res) => {
     const item = new Item({
         name: req.body.name,
     });
