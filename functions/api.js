@@ -23,7 +23,11 @@ const itemSchema = new mongoose.Schema({
 const Item = mongoose.model('Item', itemSchema);
 
 // Sample GET API
-app.get('/.netlify/functions/api/items', async (req, res) => {
+app.use('/.netlify/functions/api', (req, res, next) => {
+  next();
+});
+
+app.get('/items', async (req, res) => {
     try {
         const items = await Item.find();
         res.json(items);
@@ -33,7 +37,7 @@ app.get('/.netlify/functions/api/items', async (req, res) => {
 });
 
 // Sample POST API
-app.post('/.netlify/functions/api/items', async (req, res) => {
+app.post('/items', async (req, res) => {
     const item = new Item({
         name: req.body.name,
     });
@@ -45,6 +49,8 @@ app.post('/.netlify/functions/api/items', async (req, res) => {
         res.status(400).json({ message: err.message });
     }
 });
+
+module.exports.handler = serverless(app);
 
 // Export the app as a serverless function
 module.exports.handler = serverless(app);
