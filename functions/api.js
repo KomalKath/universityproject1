@@ -17,6 +17,7 @@ app.get('/.netlify/functions/api/student/all',async (req, res) => {
       const studentData = await Student.find();
       res.status(200).json({student:studentData});
     } catch (error) {
+    console.log(error);
       res.status(500).json({ message: error.message });
     }
 })
