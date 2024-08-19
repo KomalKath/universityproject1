@@ -52,5 +52,5 @@ app.post('/items', async (req, res) => {
 
 module.exports.handler = serverless(app);
 
-// Export the app as a serverless function
-module.exports.handler = serverless(app);
+// // Export the app as a serverless function
+// module.exports.handler = serverless(app);
