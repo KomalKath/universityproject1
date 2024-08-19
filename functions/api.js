@@ -1,6 +1,7 @@
 const express = require('express');
 const serverless = require('serverless-http');
 const connectDB = require ('../db/connection');
+require("dotenv").config();
 const app = express();
 
 // Import routes from the root-level routes folder
