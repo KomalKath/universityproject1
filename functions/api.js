@@ -9,7 +9,14 @@ const app = express();
 
 // Middleware to parse JSON bodies
 app.use(express.json());
-
+app.use(cors({
+    // origin:'*',
+       origin:[
+               '*',
+               'https://app.netlify.com/'
+              ],
+          
+  }));
 // Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
