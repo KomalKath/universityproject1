@@ -1,6 +1,7 @@
 const express = require('express');
 const serverless = require('serverless-http');
 const connectDB = require ('../db/connection');
+const Student = require('../models/student');
 require("dotenv").config();
 const app = express();
 
