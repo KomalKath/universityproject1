@@ -1,8 +1,10 @@
 require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
 import express, { Router } from "express";
 const serverless = require('serverless-http');
+
 const app = express();
 
 // Middleware to parse JSON bodies
