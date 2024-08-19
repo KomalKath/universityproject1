@@ -8,10 +8,10 @@ const app = express();
 
 // Middleware to log requests
 connectDB();
-app.use((req, res, next) => {
-  console.log(`Request received: ${req.method} ${req.url}`);
-  next();
-});
+// app.use((req, res, next) => {
+//   console.log(`Request received: ${req.method} ${req.url}`);
+//   next();
+// });
 app.get('/.netlify/functions/api/student/all',async (req, res) => {
   try {
       const studentData = await Student.find();
@@ -21,7 +21,7 @@ app.get('/.netlify/functions/api/student/all',async (req, res) => {
     }
 })
 // Use the routes with the appropriate path prefix
-app.use('/.netlify/functions/api/course', courseRoutes);
+
 
 // Error handling middleware
 app.use((err, req, res, next) => {
